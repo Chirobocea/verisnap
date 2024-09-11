@@ -131,6 +131,10 @@ def copy_directory(source_dir: str, output_dir: str, threshold: int = DEFAULT_TH
 
 def find_latest_version(snapshots_dir: str) -> int:
     """Finds the latest snapshot version by examining folder names that start with 'V' followed by a number."""
+    if not os.path.exists(snapshots_dir):
+        os.makedirs(snapshots_dir)
+        return 0
+
     version_pattern = re.compile(r'^V(\d+)_')
     latest_version = 0
     
