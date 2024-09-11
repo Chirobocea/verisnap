@@ -1,14 +1,17 @@
 import os
 import shutil
-import winshell
 from datetime import datetime
 import re
 import logging
 
+# Conditional import for Windows-specific modules
+if os.name == 'nt':
+    import winshell
+
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-DEFAULT_THRESHOLD = 50  # Default threshold size in bytes (50 MB)
+DEFAULT_THRESHOLD = 50  # Default threshold size in MB
 
 def create_symlink_or_shortcut(src: str, dest: str) -> None:
     """Creates a symlink (or shortcut on Windows) for the given source."""
@@ -47,7 +50,7 @@ def validate_threshold(threshold: any) -> int:
         # Check if the value is greater than 0
         if threshold_value <= 0:
             logging.warning(f"Invalid threshold value: {threshold}. Threshold must be greater than 0. Using default value: {DEFAULT_THRESHOLD} MB.")
-            return DEFAULT_THRESHOLD
+            return DEFAULT_THRESHOLD * 1024 * 1024
         elif threshold_value > 100:
             logging.warning(f"Threshold value {threshold_value} MB seems too high. Please provide a value in MB. Defaulting to {DEFAULT_THRESHOLD} MB.")
             return DEFAULT_THRESHOLD * 1024 * 1024
