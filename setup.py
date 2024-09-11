@@ -1,4 +1,18 @@
 from setuptools import setup, find_packages
+import platform
+
+# Determine the platform
+current_platform = platform.system()
+
+# Define the common dependencies
+install_requires = []
+
+# Add platform-specific dependencies
+if current_platform == 'Windows':
+    install_requires.extend([
+        'winshell>=0.6',
+        'pywin32>=306',
+    ])
 
 setup(
     name='verisnap',
@@ -10,10 +24,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/Chirobocea/verisnap',
     packages=find_packages(),
-    install_requires=[
-        'winshell>=0.6',
-        'pywin32>=306',
-    ],
+    install_requires=install_requires,
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
